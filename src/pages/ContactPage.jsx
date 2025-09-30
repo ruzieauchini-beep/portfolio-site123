@@ -1,4 +1,29 @@
+import { useState } from 'react';
+import axios from 'axios';
+
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [response, setResponse] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:8000/api/users/signup', formData);
+      setResponse(res.data.message); // "User signed up successfully"
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setResponse(error.response?.data?.message || 'Error sending message');
+    }
+  };
+
   return (
     <section className="w-full min-h-screen bg-gray-100 flex items-center justify-center px-6">
       <div className="bg-white shadow-lg rounded-2xl p-10 w-full max-w-3xl">
@@ -10,7 +35,7 @@ export default function ContactPage() {
         </p>
 
         {/* Form */}
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -18,8 +43,11 @@ export default function ContactPage() {
             </label>
             <input
               type="text"
+              name="name"
               placeholder="Your name"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={formData.name}
+              onChange={handleChange}
               required
             />
           </div>
@@ -31,8 +59,11 @@ export default function ContactPage() {
             </label>
             <input
               type="email"
+              name="email"
               placeholder="you@example.com"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
@@ -43,10 +74,12 @@ export default function ContactPage() {
               Message
             </label>
             <textarea
+              name="message"
               placeholder="Write your message..."
               rows="5"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              required
+              value={formData.message}
+              onChange={handleChange}
             ></textarea>
           </div>
 
@@ -58,6 +91,9 @@ export default function ContactPage() {
             Send Message
           </button>
         </form>
+
+        {/* Response Message */}
+        {response && <p className="mt-4 text-center text-green-600">{response}</p>}
       </div>
     </section>
   );

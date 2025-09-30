@@ -24,14 +24,13 @@ function App() {
           }
         />
 
-        {/* About Page */}
+        {/* Other Pages */}
         <Route path="/about" element={<AboutPage/>} />
         <Route path="/projects" element={<Projects1/>} />
         <Route path="/contact" element={<ContactPage/>}/>
       </Routes>
     </div>
   );
-
 }
 
 export default App;

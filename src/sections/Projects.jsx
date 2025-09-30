@@ -4,7 +4,7 @@ function Projects() {
     {
       title: "Portfolio Website",
       description: "A personal portfolio built with React and Tailwind CSS.",
-      image: "/projects/project1.png",
+      image: "/projects/project1.png", // from public/projects/
       link: "#",
     },
     {

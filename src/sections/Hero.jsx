@@ -26,8 +26,6 @@ function Hero() {
           </Link>
         </div>
       </div>
-
-      {/* Right: Image */}
       <div className="mt-12 md:mt-0">
         <img
           src={heroImg}
